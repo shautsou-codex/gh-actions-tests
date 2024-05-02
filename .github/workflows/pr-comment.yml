@@ -4,7 +4,6 @@ on:
   issue_comment:
     types: [created]
 
-
 jobs:
   run-migration:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/migrate') }} # only comment in pr and contains '/migrate'
@@ -12,16 +11,20 @@ jobs:
     steps:
       - uses: xt0rted/pull-request-comment-branch@v2
         id: comment-branch
-
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ steps.comment-branch.outputs.head_ref }}
       - uses: pnpm/action-setup@v2
         with:
           version: 8
           run_install: false
+
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.comment-branch.outputs.head_ref }}
+
       - uses: actions/setup-node@v4
         with:
           node-version: 18.x
-          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install
+
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} and ${{ github.event.comment.body }} command"
