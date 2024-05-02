@@ -30,7 +30,7 @@ jobs:
         run: pnpm install
 
       - name: Run migration
-        run: pnpm migrate >> $GITHUB_OUTPUT
+        run: echo $(pnpm migrate) >> $GITHUB_OUTPUT
         id: migrate
 
       - name: add result comment
