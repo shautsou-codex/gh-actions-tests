@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migrate": "echo some migrations results >> migrate.log"
+    "migrate": "echo some migrations results here to test pr/issues number in context of issue_comment"
   },
   "keywords": [],
   "author": "",
