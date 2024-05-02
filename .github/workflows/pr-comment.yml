@@ -8,6 +8,7 @@ jobs:
   run-migration:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, '/migrate') }} # only comment in pr and contains '/migrate'
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - uses: xt0rted/pull-request-comment-branch@v2
         id: comment-branch
@@ -23,8 +24,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18.x
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install
 
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} and ${{ github.event.comment.body }} command"
+      - name: Run migration
+        run: pnpm migrate >> $GITHUB_OUTPUT
+        id: migrate
+
+      - name: add result comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: steps.migrate.outcome == 'success'
+        with:
+          recreate: true
+          message: |
+            ### Migrate command output
+            ${{ join(steps.migrate.outputs, '\n') }}
+
