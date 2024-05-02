@@ -37,7 +37,7 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         if: steps.migrate.outcome == 'success'
         with:
-          number: ${{ github.event.issue.pull_request.number }}
+          number: ${{ github.event.issue.number }}
           recreate: true
           path: ./migrate.log
 
