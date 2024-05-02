@@ -30,7 +30,7 @@ jobs:
         run: pnpm install
 
       - name: Run migration
-        run: echo $(pnpm migrate) >> $GITHUB_OUTPUT
+        run: pnpm run migrate
         id: migrate
 
       - name: add result comment
@@ -38,7 +38,5 @@ jobs:
         if: steps.migrate.outcome == 'success'
         with:
           recreate: true
-          message: |
-            ### Migrate command output
-            ${{ join(steps.migrate.outputs, '\n') }}
+          path: ./migrate.log
 
