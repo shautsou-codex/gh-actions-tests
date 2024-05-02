@@ -23,4 +23,6 @@ jobs:
         with:
           node-version: 18.x
           cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} and ${{ github.event.comment.body }} command"
